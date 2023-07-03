@@ -1,0 +1,63 @@
+import {BsFilterRight} from 'react-icons/bs'
+
+import './index.css'
+
+const ProductsHeader = props => {
+  const {changeSortby, changeSearchInput, titleSearch, onCallSearch} = props
+  const onChangeSortby = event => {
+    changeSortby(event.target.value)
+  }
+
+  const {sortbyOptions, activeOptionId} = props
+
+  let reqInput
+
+  const onChangeSearch = event => {
+    reqInput = event.target.value
+    changeSearchInput(reqInput)
+  }
+  const onClickEnter = event => {
+    console.log(reqInput)
+    console.log(event.key)
+    if (event.key === 'Enter') {
+      onCallSearch(reqInput)
+    }
+  }
+
+  return (
+    <div className="products-header">
+      <div className="search-container">
+        <input
+          className="search-el"
+          type="search"
+          placeholder="Search"
+          onChange={onChangeSearch}
+          value={titleSearch}
+          onKeyPress={onClickEnter}
+        />
+      </div>
+      <h1 className="products-list-heading">All Products</h1>
+      <div className="sort-by-container">
+        <BsFilterRight className="sort-by-icon" />
+        <p className="sort-by">Sort by</p>
+        <select
+          className="sort-by-select"
+          value={activeOptionId}
+          onChange={onChangeSortby}
+        >
+          {sortbyOptions.map(eachOption => (
+            <option
+              key={eachOption.optionId}
+              value={eachOption.optionId}
+              className="select-option"
+            >
+              {eachOption.displayText}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  )
+}
+
+export default ProductsHeader
